@@ -1,6 +1,6 @@
 <template>
   <ion-content>
-    <form @submit.prevent='handleSubmit(settings)'>
+    <form @submit.prevent='handleSave(settings)'>
       <ion-card padding>
         <ion-card-title>Settings</ion-card-title>
           <ion-card-content>
@@ -131,7 +131,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      handleSubmit: "saveSettings"
+      handleSave: "saveSettings"
     }),
     updateCompany() {
       this.settings.company = this.$refs.company.value;
@@ -146,11 +146,11 @@ export default {
       this.settings.bankHols = this.$refs.bankHols.value;
     },
     updateYearStart() {
-      this.settings.yearStart = this.$refs.yearStart.innerText;
+      this.settings.yearStart = this.$refs.yearStart.value;
       console.log("clicked", this.$refs);
     },
     updateYearEnd() {
-      this.settings.yearEnd = this.$refs.yearEnd.innerText;
+      this.settings.yearEnd = this.$refs.yearEnd.value;
     },
     updateMon() {
       this.settings.mon = !this.settings.mon;

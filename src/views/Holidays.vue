@@ -1,5 +1,6 @@
 <template>
         <ion-content>
+          <ion-alert-controller></ion-alert-controller>
           <ion-card color="light" padding>
             <ion-item>
               <ion-label>Days Taken:</ion-label>
@@ -27,18 +28,27 @@
                 <ion-col>Start</ion-col>
                 <ion-col>End</ion-col>
                 <ion-col>Details</ion-col>
-                <ion-col></ion-col>
               </ion-row>
 
               <ion-row v-for="holiday in holidays" :key="holiday.id">
-                <ion-col>{{holiday.holStart}}</ion-col>
-                <ion-col>{{holiday.holEnd}}</ion-col>
-                <ion-col>{{holiday.holName}}</ion-col>
-                <ion-col>
-                  <ion-button @click="handleDelete(holiday.id)" size="small" fill="clear" >
-                    <ion-icon color="danger" name="trash"></ion-icon>
-                  </ion-button>
-                  </ion-col>
+                <ion-item-sliding>
+                  <ion-item>
+                    <ion-col>{{holiday.holStart}}</ion-col>
+                    <ion-col>{{holiday.holEnd}}</ion-col>
+                    <ion-col>{{holiday.holName}}</ion-col>
+                    
+                  </ion-item>
+                  <ion-item-options side="start">
+                    <ion-item-option color="secondary" @click="handleSelect(holiday)">
+                      <ion-icon name="open"></ion-icon> Edit
+                    </ion-item-option>
+                  </ion-item-options>
+                  <ion-item-options>
+                    <ion-item-option color="danger" @click="handleDelete(holiday)" >
+                      <ion-icon name="trash"></ion-icon> Delete
+                    </ion-item-option>
+                  </ion-item-options>
+                </ion-item-sliding>
               </ion-row>
             </ion-grid>
           </ion-card>
@@ -48,6 +58,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+
 export default {
   name: "Holidays",
   data() {
@@ -61,9 +72,10 @@ export default {
       holidays: state => state.holidays
     })
   },
-  modules: {
+  methods: {
     ...mapActions({
-      handleDelete: "deleteHoliday"
+      handleDelete: "deleteHoliday",
+      handleSelect: "selectHoliday"
     })
   }
 };

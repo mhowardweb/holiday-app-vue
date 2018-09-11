@@ -1,7 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import VuexPersist from "vuex-persist";
+import uuid from "uuid/v4";
 import router from "./router";
+import * as types from "./mutations";
 
 const vuexPersist = new VuexPersist({
   key: "holiday-app",
@@ -29,6 +31,7 @@ export default new Vuex.Store({
       sun: false
     },
     holiday: {
+      id: "",
       holName: "",
       holStart: "",
       holEnd: "",
@@ -42,28 +45,63 @@ export default new Vuex.Store({
     headerTitle: "Holiday App"
   },
   mutations: {
-    setSettings(state, settings) {
+    [types.SAVE_SETTINGS]: (state, settings) => {
       state.settings = settings;
     },
-    setHoliday(state, holiday) {
+    [types.ADD_HOLIDAY]: (state, holiday) => {
       state.holidays.push(holiday);
     },
-    delHoliday(state, id) {
-      state.holidays.splice(id, 1);
+    [types.UPDATE_HOLIDAY]: (state, holidays) => {
+      state.holidays = holidays;
+    },
+    [types.DELETE_HOLIDAY]: (state, holidays) => {
+      state.holidays = holidays;
+    },
+    [types.SELECT_HOLIDAY]: (state, id) => {
+      state.holiday = id;
+    },
+    [types.CLEAR_FORM]: (state, holiday) => {
+      state.holiday = holiday;
     }
   },
   actions: {
     saveSettings({ commit }, settings) {
-      commit("setSettings", settings);
-      router.push({ path: "holidays" });
+      commit(types.SAVE_SETTINGS, settings);
+      router.replace({ path: "holidays" });
     },
-    saveHoliday({ commit }, holiday) {
-      commit("setHoliday", holiday);
-      router.push({ path: "holidays" });
+    addHoliday({ commit }, holiday) {
+      const setId = uuid();
+      holiday = { ...holiday, id: setId };
+      commit(types.ADD_HOLIDAY, holiday);
+      this.clearForm;
+      router.replace({ path: "holidays" });
     },
-    deleteHoliday({ commit }, id) {
-      console.log("delete run");
-      commit("delHoliday", id);
+    deleteHoliday({ state, commit }, holiday) {
+      const oldHols = state.holidays;
+      const holidays = oldHols.filter(hols => hols.id !== holiday.id);
+      commit(types.DELETE_HOLIDAY, holidays);
+    },
+    clearForm({ commit }) {
+      const holiday = {
+        holName: "",
+        holStart: "",
+        holEnd: "",
+        daysBooked: 1,
+        details: ""
+      };
+      commit(types.CLEAR_FORM, holiday);
+    },
+    selectHoliday({ commit }, id) {
+      commit(types.SELECT_HOLIDAY, id);
+
+      router.replace({ path: "edit" });
+    },
+    updateHoliday({ state, commit }, holiday) {
+      const oldHols = state.holidays;
+      let holidays = oldHols.filter(hols => hols.id !== holiday.id);
+      holidays = { ...holidays, holiday };
+      commit(types.UPDATE_HOLIDAY, holidays);
+      router.replace({ path: "holidays" });
     }
   }
 });

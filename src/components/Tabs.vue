@@ -1,4 +1,5 @@
 <template>
+
 <ion-footer>
   <ion-toolbar>
         <ion-segment color="secondary">
@@ -17,13 +18,19 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "Tabs",
   methods: {
+    ...mapActions({
+      clearForm: "clearForm"
+    }),
     goHols() {
       this.$router.push({ path: "/holidays" });
     },
     goAdd() {
+      this.clearForm();
       this.$router.push({ path: "/add" });
     },
     goSettings() {

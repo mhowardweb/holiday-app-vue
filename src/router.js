@@ -4,6 +4,7 @@ import Home from "./views/Home.vue";
 import Add from "./views/Add.vue";
 import Settings from "./views/Settings.vue";
 import Holidays from "./views/Holidays.vue";
+import Edit from "./views/Edit.vue";
 
 Vue.use(Router);
 
@@ -23,6 +24,11 @@ export default new Router({
       path: "/add",
       name: "add",
       component: Add
+    },
+    {
+      path: "/edit",
+      name: "edit",
+      component: Edit
     },
     {
       path: "/settings",

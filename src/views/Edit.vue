@@ -1,8 +1,8 @@
 <template>
   <ion-content>
-    <form @submit.prevent="handleAdd(holiday)">
+    <form @submit.prevent="handleEdit(holiday)">
       <ion-card padding>
-        <ion-card-title>Add Holiday</ion-card-title>
+        <ion-card-title>Edit Holiday</ion-card-title>
           <ion-card-content>
             <ion-item>
               <ion-label>Holiday Name</ion-label>
@@ -58,7 +58,7 @@
                              
           <ion-card-content>
             <ion-item>
-              <ion-button type="submit"  size="default" color="primary">Save Holiday</ion-button>
+              <ion-button type="submit"  size="default" color="primary">Update Holiday</ion-button>
             </ion-item>
           </ion-card-content>
 
@@ -72,7 +72,7 @@
 import { mapState, mapActions } from "vuex";
 
 export default {
-  name: "Add",
+  name: "Edit",
   computed: {
     ...mapState({
       holiday: state => state.holiday
@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      handleAdd: "addHoliday"
+      handleEdit: "updateHoliday"
     }),
     updateHolName() {
       this.holiday.holName = this.$refs.holName.value;

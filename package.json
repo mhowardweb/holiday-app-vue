@@ -12,6 +12,7 @@
     "@capacitor/android": "^1.0.0-beta.7",
     "@capacitor/cli": "^1.0.0-beta.7",
     "@capacitor/core": "^1.0.0-beta.7",
+    "uuid": "^3.3.2",
     "vee-validate": "^2.1.0-beta.8",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
