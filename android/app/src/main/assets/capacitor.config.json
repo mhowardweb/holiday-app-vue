@@ -1,0 +1,6 @@
+{
+  "appId": "com.holiday.app",
+  "appName": "Holiday-app",
+  "bundledWebRuntime": false,
+  "webDir": "dist"
+}

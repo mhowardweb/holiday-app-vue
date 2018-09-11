@@ -1,6 +1,9 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import Add from "./views/Add.vue";
+import Settings from "./views/Settings.vue";
+import Holidays from "./views/Holidays.vue";
 
 Vue.use(Router);
 
@@ -12,13 +15,19 @@ export default new Router({
       component: Home
     },
     {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
+      path: "/holidays",
+      name: "holidays",
+      component: Holidays
+    },
+    {
+      path: "/add",
+      name: "add",
+      component: Add
+    },
+    {
+      path: "/settings",
+      name: "settings",
+      component: Settings
     }
   ]
 });

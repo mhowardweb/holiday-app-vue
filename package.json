@@ -1,5 +1,5 @@
 {
-  "name": "example",
+  "name": "holiday-app-vue",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,9 +9,14 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@capacitor/android": "^1.0.0-beta.7",
+    "@capacitor/cli": "^1.0.0-beta.7",
+    "@capacitor/core": "^1.0.0-beta.7",
+    "vee-validate": "^2.1.0-beta.8",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "vuex-persist": "^1.5.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.1",
