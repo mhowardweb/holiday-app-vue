@@ -2,17 +2,17 @@
   <ion-content>
     <form @submit.prevent="handleEdit(holiday)">
       <ion-card padding>
-        <ion-card-title>Edit Holiday</ion-card-title>
+        <ion-card-title text-center>Edit Holiday</ion-card-title>
           <ion-card-content>
             <ion-item>
-              <ion-label>Holiday Name</ion-label>
-              <ion-input :value="holiday.holName" ref="holName" name='holName' type='text' inputmode='text' @input="updateHolName" />
+              <ion-label>Holiday Name:</ion-label>
+              <ion-input text-end :value="holiday.holName" ref="holName" name='holName' type='text' inputmode='text' @input="updateHolName" />
             </ion-item>
           </ion-card-content>
 
           <ion-card-content>
             <ion-item>
-              <ion-label>Holiday Start</ion-label>
+              <ion-label>Holiday Start:</ion-label>
               <ion-datetime
                 name='holStart'
                 ref="holStart"
@@ -28,7 +28,7 @@
 
           <ion-card-content>
             <ion-item>
-              <ion-label>Holiday End</ion-label>
+              <ion-label>Holiday End:</ion-label>
               <ion-datetime
                 name='holEnd'
                 ref="holEnd"
@@ -44,22 +44,22 @@
 
           <ion-card-content>
             <ion-item>
-              <ion-label>Days Booked</ion-label>
-              <ion-input :value="holiday.daysBooked" ref="daysBooked" name='daysBooked' type='text' inputmode='number' @input="updateDaysBooked" />
+              <ion-label>Days Booked:</ion-label>
+              <ion-input text-end :value="holiday.daysBooked" ref="daysBooked" name='daysBooked' type='text' inputmode='number' @input="updateDaysBooked" />
             </ion-item>
           </ion-card-content>
 
           <ion-card-content>
             <ion-item>
-              <ion-label>Details</ion-label>
-              <ion-input :value="holiday.details" ref="details" name='details' type='text' inputmode='text' @input="updateDetails" />
+              <ion-label>Details:</ion-label>
+              <ion-input text-end :value="holiday.details" ref="details" name='details' type='text' inputmode='text' @input="updateDetails" />
             </ion-item>
           </ion-card-content>
                              
           <ion-card-content>
-            <ion-item>
-              <ion-button type="submit"  size="default" color="primary">Update Holiday</ion-button>
-            </ion-item>
+            
+              <ion-button expand="full" type="submit"  size="default" color="primary">Update Holiday</ion-button>
+            
           </ion-card-content>
 
       </ion-card>

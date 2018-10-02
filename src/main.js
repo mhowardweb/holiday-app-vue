@@ -1,14 +1,22 @@
 import Vue from "vue";
-import VeeValidate from "vee-validate";
+import Vuelidate from "vuelidate";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
+import store from "./store/store";
+
+import moment from "moment";
+
+Vue.filter("formatDate", function(value) {
+  if (value) {
+    return moment(String(value)).format("DD/MM/YY");
+  }
+});
 
 Vue.config.productionTip = false;
 
 Vue.config.ignoredElements = [/^ion-/];
 
-Vue.use(VeeValidate);
+Vue.use(Vuelidate);
 
 new Vue({
   router,

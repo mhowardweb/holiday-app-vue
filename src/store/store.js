@@ -2,8 +2,8 @@ import Vue from "vue";
 import Vuex from "vuex";
 import VuexPersist from "vuex-persist";
 import uuid from "uuid/v4";
-import router from "./router";
-import * as types from "./mutations";
+import router from "../router";
+import * as types from "./types";
 
 const vuexPersist = new VuexPersist({
   key: "holiday-app",
@@ -20,8 +20,8 @@ export default new Vuex.Store({
       name: "",
       daysHol: 0,
       bankHols: 0,
-      yearStart: "",
-      yearEnd: "",
+      yearStart: "2018-03-01T00:00:00",
+      yearEnd: "2019-03-01T00:00:00",
       mon: true,
       tue: true,
       wed: true,
@@ -35,27 +35,33 @@ export default new Vuex.Store({
       holName: "",
       holStart: "",
       holEnd: "",
-      daysBooked: 1,
+      daysBooked: 0,
       details: ""
     },
     holidays: [],
-    errors: {},
+    workDays: [],
     daysTaken: 0,
-    daysRemaining: 0,
-    headerTitle: "Holiday App"
+    daysRemaining: 0
   },
   mutations: {
-    [types.SAVE_SETTINGS]: (state, settings) => {
+    [types.SAVE_SETTINGS]: (state, { settings, workDays }) => {
       state.settings = settings;
+      state.workDays = workDays;
+      state.daysRemaining =
+        parseInt(settings.daysHol) + parseInt(settings.bankHols) || 0;
     },
     [types.ADD_HOLIDAY]: (state, holiday) => {
       state.holidays.push(holiday);
+      state.daysRemaining = state.daysRemaining - holiday.daysBooked;
+      state.daysTaken = state.daysTaken + holiday.daysBooked;
     },
     [types.UPDATE_HOLIDAY]: (state, holidays) => {
       state.holidays = holidays;
     },
-    [types.DELETE_HOLIDAY]: (state, holidays) => {
+    [types.DELETE_HOLIDAY]: (state, { holidays, removeBooked }) => {
       state.holidays = holidays;
+      state.daysRemaining = state.daysRemaining + removeBooked;
+      state.daysTaken = state.daysTaken - removeBooked;
     },
     [types.SELECT_HOLIDAY]: (state, id) => {
       state.holiday = id;
@@ -64,9 +70,40 @@ export default new Vuex.Store({
       state.holiday = holiday;
     }
   },
+
   actions: {
-    saveSettings({ commit }, settings) {
-      commit(types.SAVE_SETTINGS, settings);
+    saveSettings({ state, commit }, settings) {
+      let workDays = [];
+      if (settings.sun) {
+        workDays.push(0);
+      }
+
+      if (settings.mon) {
+        workDays.push(1);
+      }
+
+      if (settings.tue) {
+        workDays.push(2);
+      }
+
+      if (settings.wed) {
+        workDays.push(3);
+      }
+
+      if (settings.thu) {
+        workDays.push(4);
+      }
+
+      if (settings.fri) {
+        workDays.push(5);
+      }
+
+      if (settings.sat) {
+        workDays.push(6);
+      }
+
+      commit(types.SAVE_SETTINGS, { settings, workDays });
+
       router.replace({ path: "holidays" });
     },
     addHoliday({ commit }, holiday) {
@@ -78,8 +115,9 @@ export default new Vuex.Store({
     },
     deleteHoliday({ state, commit }, holiday) {
       const oldHols = state.holidays;
+      const removeBooked = holiday.daysBooked;
       const holidays = oldHols.filter(hols => hols.id !== holiday.id);
-      commit(types.DELETE_HOLIDAY, holidays);
+      commit(types.DELETE_HOLIDAY, { holidays, removeBooked });
     },
     clearForm({ commit }) {
       const holiday = {
@@ -96,11 +134,16 @@ export default new Vuex.Store({
 
       router.replace({ path: "edit" });
     },
+    /**
+     *
+     * copies holidays array, finds holiday by id and overwrites it.
+     * @param {*} holiday
+     */
     updateHoliday({ state, commit }, holiday) {
-      const oldHols = state.holidays;
-      let holidays = oldHols.filter(hols => hols.id !== holiday.id);
-      holidays = { ...holidays, holiday };
-      commit(types.UPDATE_HOLIDAY, holidays);
+      const newHols = state.holidays;
+      const index = newHols.findIndex(obj => obj.id == holiday.id);
+      newHols[index] = holiday;
+      commit(types.UPDATE_HOLIDAY, newHols);
       router.replace({ path: "holidays" });
     }
   }

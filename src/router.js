@@ -1,10 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
-import Add from "./views/Add.vue";
-import Settings from "./views/Settings.vue";
-import Holidays from "./views/Holidays.vue";
-import Edit from "./views/Edit.vue";
 
 Vue.use(Router);
 
@@ -18,22 +14,22 @@ export default new Router({
     {
       path: "/holidays",
       name: "holidays",
-      component: Holidays
+      component: () => import("./views/Holidays.vue")
     },
     {
       path: "/add",
       name: "add",
-      component: Add
+      component: () => import("./views/Add.vue")
     },
     {
       path: "/edit",
       name: "edit",
-      component: Edit
+      component: () => import("./views/Edit.vue")
     },
     {
       path: "/settings",
       name: "settings",
-      component: Settings
+      component: () => import("./views/Settings.vue")
     }
   ]
 });

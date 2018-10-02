@@ -2,41 +2,42 @@
   <ion-content>
     <form @submit.prevent='handleSave(settings)'>
       <ion-card padding>
-        <ion-card-title>Settings</ion-card-title>
+        <ion-card-title text-center>Settings</ion-card-title>
           <ion-card-content>
             <ion-item>
-              <ion-label>Company</ion-label>
-              <ion-input v-validate="{required: true, min: 4 }" :value="settings.company" ref="company" name='company' type='text' inputmode='text' @input="updateCompany" />
+              <ion-label>Company Name:</ion-label>
+              <ion-input text-end :value="settings.company" ref="company" name='company' type='text' inputmode='text' @input="updateCompany" />
             </ion-item>
-            <ion-text color="danger" v-show="errors.has('company')">{{ errors.first('company') }}</ion-text>
+            <ion-label class="error" v-if="!$v.settings.company.minLength">Company must have at least {{$v.settings.company.$params.minLength.min}} characters.</ion-label>
           </ion-card-content>
 
           <ion-card-content>
             <ion-item>
-              <ion-label>Name</ion-label>
-              <ion-input v-validate="{required: true, min: 4}" :value="settings.name" ref="name" name='name' type='text' inputmode='text' @input="updateName" />
+              <ion-label>Name:</ion-label>
+              <ion-input text-end :value="settings.name" ref="name" name='name' type='text' inputmode='text' @input="updateName" />
             </ion-item>
-            <ion-text color="danger" v-show="errors.has('name')">{{ errors.first('name') }}</ion-text>
+            <ion-label class="error" v-if="!$v.settings.name.minLength" >Name must have at least {{$v.settings.name.$params.minLength.min}} characters.</ion-label>
           </ion-card-content>
 
           <ion-card-content>
             <ion-item>
-              <ion-label>Days Holiday</ion-label>
-              <ion-input v-validate="{required: true, min: 10, max: 40}" :value="settings.daysHol" ref="daysHol" name='daysHol' type='text' inputmode='number' @input="updateDaysHol" />
+              <ion-label>Days Holiday:</ion-label>
+              <ion-input text-end :value="settings.daysHol" ref="daysHol" name='daysHol' type='number' inputmode='number' @input="updateDaysHol" />
             </ion-item>
-            <ion-text color="danger" v-show="errors.has('daysHol')">{{ errors.first('daysHol') }}</ion-text>
+            <ion-label class="error" v-if="!$v.settings.daysHol.between" >Must be between 10 and 40.</ion-label>
           </ion-card-content>
 
           <ion-card-content>
             <ion-item>
-              <ion-label>Bank Holidays</ion-label>
-              <ion-input :value="settings.bankHols" ref="bankHols" name='bankHols' type='text' inputmode='number' @input="updateBankHols" />
+              <ion-label>Bank Holidays:</ion-label>
+              <ion-input text-end :value="settings.bankHols" ref="bankHols" name='bankHols' type='number' inputmode='number' @input="updateBankHols" />
             </ion-item>
+            <ion-label class="error" v-if="!$v.settings.bankHols.between" >Must be between 0 and 8.</ion-label>
           </ion-card-content>
               
           <ion-card-content>
             <ion-item>
-              <ion-label>Holiday Year Start</ion-label>
+              <ion-label>Holiday Year Start:</ion-label>
               <ion-datetime
                 name='yearStart'
                 ref="yearStart"
@@ -52,7 +53,7 @@
 
           <ion-card-content>
             <ion-item>
-              <ion-label>Holiday Year End</ion-label>
+              <ion-label>Holiday Year End:</ion-label>
               <ion-datetime
                 name='yearEnd'
                 ref="yearEnd"
@@ -67,7 +68,9 @@
           </ion-card-content>
 
           <ion-card-content>
+            <ion-label>Normal Working Days</ion-label>
             <ion-list>
+              
             <ion-item>
               <ion-label>Monday</ion-label>
               <ion-checkbox :checked=settings.mon name="mon" color="danger" @click="updateMon"></ion-checkbox>
@@ -106,9 +109,9 @@
           </ion-card-content>
 
           <ion-card-content>
-            <ion-item>
-              <ion-button type="submit"  size="default" color="primary">Save Settings</ion-button>
-            </ion-item>
+            
+              <ion-button :disabled="$v.$invalid" expand="full" type="submit" color="primary">Save Settings</ion-button>
+            
           </ion-card-content>
               
         </ion-card>
@@ -118,16 +121,25 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import { required, minLength, between } from "vuelidate/lib/validators";
+import moment from "moment";
 
 export default {
   name: "Settings",
-  data() {
-    return {};
-  },
   computed: {
     ...mapState({
       settings: state => state.settings
     })
+  },
+  validations: {
+    settings: {
+      company: { required, minLength: minLength(4) },
+      name: { required, minLength: minLength(4) },
+      daysHol: { required, between: between(10, 40) },
+      bankHols: { required, between: between(0, 8) },
+      yearStart: { required },
+      yearEnd: { required }
+    }
   },
   methods: {
     ...mapActions({
@@ -135,22 +147,43 @@ export default {
     }),
     updateCompany() {
       this.settings.company = this.$refs.company.value;
+      this.$v.settings.company.$touch();
     },
     updateName() {
       this.settings.name = this.$refs.name.value;
+      this.$v.settings.name.$touch();
     },
     updateDaysHol() {
       this.settings.daysHol = this.$refs.daysHol.value;
+      this.$v.settings.daysHol.$touch();
     },
     updateBankHols() {
       this.settings.bankHols = this.$refs.bankHols.value;
+      this.$v.settings.bankHols.$touch();
     },
     updateYearStart() {
-      this.settings.yearStart = this.$refs.yearStart.value;
-      console.log("clicked", this.$refs);
+      this.$v.settings.yearStart.$touch();
+      const month = event.detail.value.month.value || 1;
+      const year = event.detail.value.year.value || 2018;
+
+      const theDate = moment()
+        .year(year)
+        .month(month - 1)
+        .date(1)
+        .toISOString();
+      this.settings.yearStart = theDate;
     },
     updateYearEnd() {
-      this.settings.yearEnd = this.$refs.yearEnd.value;
+      this.$v.settings.yearEnd.$touch();
+      const month = event.detail.value.month.value || 1;
+      const year = event.detail.value.year.value || 2018;
+
+      const theDate = moment()
+        .year(year)
+        .month(month - 1)
+        .date(1)
+        .toISOString();
+      this.settings.yearEnd = theDate;
     },
     updateMon() {
       this.settings.mon = !this.settings.mon;

@@ -1,25 +1,37 @@
-export async function presentAlertConfirm() {
+window.addEventListener("ionAlertDidDismiss", function(e) {
+  console.log("didDismiss", e);
+});
+window.addEventListener("ionAlertWillDismiss", function(e) {
+  console.log("willDismiss", e);
+});
+
+async function presentAlertConfirm(data) {
   const alertController = document.querySelector("ion-alert-controller");
   await alertController.componentOnReady();
   const alert = await alertController.create({
-    header: "Confirm Delete",
-    message: "Are you sure you wish to delete this holiday ?",
+    header: "Confirm Deletion!",
+    message: "Are you sure you wish to delete this Holiday?",
     buttons: [
       {
         text: "Cancel",
         role: "cancel",
         cssClass: "secondary",
-        handler: blah => {
-          console.log("Confirm Cancel: blah");
+        handler: () => {
+          data = false;
+          return data;
         }
       },
       {
         text: "Delete",
         handler: () => {
-          console.log("Confirm Okay");
+          data = true;
+          console.log("delete");
+          return data;
         }
       }
     ]
   });
   return await alert.present();
 }
+
+export default presentAlertConfirm;

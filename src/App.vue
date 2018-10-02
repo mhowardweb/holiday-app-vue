@@ -1,9 +1,9 @@
 <template>
-<ion-app>
-  <Header />
-    <router-view></router-view>
-  <Tabs />
-</ion-app>
+  <ion-app>
+    <Header />
+      <router-view></router-view>
+    <Tabs />
+  </ion-app>
 </template>
 
 <script>
@@ -18,3 +18,11 @@ export default {
   }
 };
 </script>
+
+<style>
+.error {
+  color: #f57f6c;
+  font-size: 0.75rem;
+  margin-left: 14px;
+}
+</style>

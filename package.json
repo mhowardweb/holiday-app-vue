@@ -10,12 +10,14 @@
   },
   "dependencies": {
     "@capacitor/android": "^1.0.0-beta.7",
-    "@capacitor/cli": "^1.0.0-beta.7",
-    "@capacitor/core": "^1.0.0-beta.7",
+    "@capacitor/cli": "^1.0.0-beta.8",
+    "@capacitor/core": "^1.0.0-beta.8",
+    "moment": "^2.22.2",
     "uuid": "^3.3.2",
     "vee-validate": "^2.1.0-beta.8",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
+    "vuelidate": "^0.7.4",
     "vuex": "^3.0.1",
     "vuex-persist": "^1.5.2"
   },
