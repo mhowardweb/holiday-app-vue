@@ -112,6 +112,11 @@ export default {
         .date(day)
         .toISOString();
       this.holiday.holStart = theDate;
+      this.holiday.daysBooked = calcDaysHol(
+        new Date(this.holiday.holStart),
+        new Date(this.holiday.holEnd),
+        this.labels.workDays
+      );
     },
     updateHolEnd() {
       const day = event.detail.value.day.value || 1;
