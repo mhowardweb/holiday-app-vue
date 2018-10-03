@@ -29,36 +29,26 @@
                 <ion-col text-center>End</ion-col>
                 <ion-col text-center>Days</ion-col>
                 <ion-col text-center>Details</ion-col>
+                <ion-col></ion-col>
               </ion-row>
 
-              <ion-row v-for="holiday in holidays" :key="holiday.id">
-                <ion-item-sliding>
-                  <ion-item color="primary">
+              <ion-row v-for="holiday in holidays" :key="holiday.id" >
+                
                     <ion-col text-center>{{holiday.holStart | formatDate}}</ion-col>
                     <ion-col text-center>{{holiday.holEnd | formatDate}}</ion-col>
                     <ion-col text-center>{{holiday.daysBooked}}</ion-col>
                     <ion-col text-center>{{holiday.holName}}</ion-col>
-                    
-                  </ion-item>
+                    <ion-col >
+                      <ion-icon color="primary" size="small" @click="handleSelect(holiday)" name="create"></ion-icon>
+                      <ion-icon color="danger" size="small" @click="showDialogAlert(holiday)" name="trash"></ion-icon>
+                      
+                      </ion-col>
                   
-                  <ion-item-options side="start">
-                    <ion-item-option color="success" @click="handleSelect(holiday)">
-                      <ion-icon name="open"></ion-icon> Edit
-                    </ion-item-option>
-                  </ion-item-options>
-                  <ion-item-options>
-                    <ion-item-option color="danger" @click="showDialogAlert(holiday)" >
-                      <ion-icon name="trash"></ion-icon> Delete
-                    </ion-item-option>
-                  </ion-item-options>
-                </ion-item-sliding>
-                <ion-item-divider></ion-item-divider>
               </ion-row>
             </ion-grid>
           </ion-card>
         </ion-content>
-  
-</template>
+ </template>
 
 <script>
 import { mapState, mapActions } from "vuex";

@@ -55,8 +55,13 @@ export default new Vuex.Store({
       state.daysRemaining = state.daysRemaining - holiday.daysBooked;
       state.daysTaken = state.daysTaken + holiday.daysBooked;
     },
-    [types.UPDATE_HOLIDAY]: (state, holidays) => {
+    [types.UPDATE_HOLIDAY]: (
+      state,
+      { holidays, oldDaysTaken, oldDaysRemaining }
+    ) => {
       state.holidays = holidays;
+      state.daysRemaining = oldDaysRemaining;
+      state.daysTaken = oldDaysTaken;
     },
     [types.DELETE_HOLIDAY]: (state, { holidays, removeBooked }) => {
       state.holidays = holidays;
@@ -72,7 +77,7 @@ export default new Vuex.Store({
   },
 
   actions: {
-    saveSettings({ state, commit }, settings) {
+    saveSettings({ commit }, settings) {
       let workDays = [];
       if (settings.sun) {
         workDays.push(0);
@@ -142,8 +147,16 @@ export default new Vuex.Store({
     updateHoliday({ state, commit }, holiday) {
       const newHols = state.holidays;
       const index = newHols.findIndex(obj => obj.id == holiday.id);
+      const oldDays = newHols[index];
       newHols[index] = holiday;
-      commit(types.UPDATE_HOLIDAY, newHols);
+      let oldDaysTaken = state.daysTaken;
+      let oldDaysRemaining = state.daysRemaining;
+      oldDaysTaken = oldDaysTaken - oldDays.daysBooked;
+      oldDaysTaken = oldDaysTaken + holiday.daysBooked;
+      oldDaysRemaining = oldDaysRemaining + oldDays.daysBooked;
+      oldDaysRemaining = oldDaysRemaining - holiday.daysBooked;
+
+      commit(types.UPDATE_HOLIDAY, { newHols, oldDaysTaken, oldDaysRemaining });
       router.replace({ path: "holidays" });
     }
   }
