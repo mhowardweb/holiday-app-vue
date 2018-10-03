@@ -39,34 +39,21 @@ export default new Vuex.Store({
       details: ""
     },
     holidays: [],
-    workDays: [],
-    daysTaken: 0,
-    daysRemaining: 0
+    workDays: []
   },
   mutations: {
     [types.SAVE_SETTINGS]: (state, { settings, workDays }) => {
       state.settings = settings;
       state.workDays = workDays;
-      state.daysRemaining =
-        parseInt(settings.daysHol) + parseInt(settings.bankHols) || 0;
     },
     [types.ADD_HOLIDAY]: (state, holiday) => {
       state.holidays.push(holiday);
-      state.daysRemaining = state.daysRemaining - holiday.daysBooked;
-      state.daysTaken = state.daysTaken + holiday.daysBooked;
     },
-    [types.UPDATE_HOLIDAY]: (
-      state,
-      { holidays, oldDaysTaken, oldDaysRemaining }
-    ) => {
+    [types.UPDATE_HOLIDAY]: (state, holidays) => {
       state.holidays = holidays;
-      state.daysRemaining = oldDaysRemaining;
-      state.daysTaken = oldDaysTaken;
     },
-    [types.DELETE_HOLIDAY]: (state, { holidays, removeBooked }) => {
+    [types.DELETE_HOLIDAY]: (state, holidays) => {
       state.holidays = holidays;
-      state.daysRemaining = state.daysRemaining + removeBooked;
-      state.daysTaken = state.daysTaken - removeBooked;
     },
     [types.SELECT_HOLIDAY]: (state, id) => {
       state.holiday = id;
@@ -114,22 +101,21 @@ export default new Vuex.Store({
     addHoliday({ commit }, holiday) {
       const setId = uuid();
       holiday = { ...holiday, id: setId };
+
       commit(types.ADD_HOLIDAY, holiday);
-      this.clearForm;
       router.replace({ path: "holidays" });
     },
     deleteHoliday({ state, commit }, holiday) {
       const oldHols = state.holidays;
-      const removeBooked = holiday.daysBooked;
       const holidays = oldHols.filter(hols => hols.id !== holiday.id);
-      commit(types.DELETE_HOLIDAY, { holidays, removeBooked });
+      commit(types.DELETE_HOLIDAY, holidays);
     },
     clearForm({ commit }) {
       const holiday = {
         holName: "",
         holStart: "",
         holEnd: "",
-        daysBooked: 1,
+        daysBooked: 0,
         details: ""
       };
       commit(types.CLEAR_FORM, holiday);
@@ -145,19 +131,26 @@ export default new Vuex.Store({
      * @param {*} holiday
      */
     updateHoliday({ state, commit }, holiday) {
-      const newHols = state.holidays;
-      const index = newHols.findIndex(obj => obj.id == holiday.id);
-      const oldDays = newHols[index];
-      newHols[index] = holiday;
-      let oldDaysTaken = state.daysTaken;
-      let oldDaysRemaining = state.daysRemaining;
-      oldDaysTaken = oldDaysTaken - oldDays.daysBooked;
-      oldDaysTaken = oldDaysTaken + holiday.daysBooked;
-      oldDaysRemaining = oldDaysRemaining + oldDays.daysBooked;
-      oldDaysRemaining = oldDaysRemaining - holiday.daysBooked;
-
-      commit(types.UPDATE_HOLIDAY, { newHols, oldDaysTaken, oldDaysRemaining });
+      const holidays = state.holidays;
+      const index = holidays.findIndex(obj => obj.id == holiday.id);
+      holidays[index] = holiday;
+      commit(types.UPDATE_HOLIDAY, holidays);
       router.replace({ path: "holidays" });
+    }
+  },
+  getters: {
+    calcSummary: state => {
+      let totals = 0;
+      state.holidays.forEach(holiday => {
+        totals = totals + holiday.daysBooked;
+      });
+      const totalDaysHol =
+        parseInt(state.settings.daysHol) + parseInt(state.settings.bankHols);
+      const totalDaysUsed = totals;
+      const totalDaysRemaining = totalDaysHol - totalDaysUsed;
+      const yearEnd = state.settings.yearEnd;
+      const name = state.settings.name;
+      return { totalDaysHol, totalDaysRemaining, totalDaysUsed, yearEnd, name };
     }
   }
 });

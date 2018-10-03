@@ -8,7 +8,7 @@ import moment from "moment";
 
 Vue.filter("formatDate", function(value) {
   if (value) {
-    return moment(String(value)).format("DD/MM/YY");
+    return moment(String(value)).format("DD/MM/YYYY");
   }
 });
 

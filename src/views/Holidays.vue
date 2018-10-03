@@ -2,53 +2,65 @@
   <ion-content>
     <ion-alert-controller></ion-alert-controller>
     <ion-card color="success" padding>
-      <ion-card-title text-center>Summary</ion-card-title>
-      <ion-item>
-        <ion-label>Days Taken:</ion-label>
-        <ion-label>{{summary.daysTaken}}</ion-label>
-      </ion-item>
+      <ion-card-title text-center>Summary for {{summary.name}}</ion-card-title>
+      <ion-row>
+        <ion-col>TOTAL DAYS</ion-col>
+        <ion-col>{{summary.totalDaysHol}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>DAYS USED:</ion-col>
+        <ion-col>{{summary.totalDaysUsed}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>DAYS REMAINING:</ion-col>
+        <ion-col>{{summary.totalDaysRemaining}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>YEAR END:</ion-col>
+        <ion-col>{{summary.yearEnd | formatDate}}</ion-col>
+      </ion-row>
+    </ion-card>
 
-            <ion-item>
-              <ion-label>Days Remaining:</ion-label>
-              <ion-label>{{summary.daysRemaining}}</ion-label>
-            </ion-item>
+    <ion-card color="primary">
+      <ion-card-title text-center>Holidays Booked</ion-card-title>
+    </ion-card>
 
-            <ion-item>
-              <ion-label>Year End:</ion-label>
-              <ion-label>{{summary.settings.yearEnd | formatDate}}</ion-label>
-              
-            </ion-item>
-    
-          </ion-card>
-
-          <ion-card>
-            <ion-card-title text-center>Holidays Booked</ion-card-title>
-            <ion-grid>
-              <ion-row>
-                <ion-col text-center>Start</ion-col>
-                <ion-col text-center>End</ion-col>
-                <ion-col text-center>Days</ion-col>
-                <ion-col text-center>Details</ion-col>
-                <ion-col></ion-col>
-              </ion-row>
-
-              <ion-row v-for="holiday in holidays" :key="holiday.id" >
-                
-                    <ion-col text-center>{{holiday.holStart | formatDate}}</ion-col>
-                    <ion-col text-center>{{holiday.holEnd | formatDate}}</ion-col>
-                    <ion-col text-center>{{holiday.daysBooked}}</ion-col>
-                    <ion-col text-center>{{holiday.holName}}</ion-col>
-                    <ion-col >
-                      <ion-icon color="primary" size="small" @click="handleSelect(holiday)" name="create"></ion-icon>
-                      <ion-icon color="danger" size="small" @click="showDialogAlert(holiday)" name="trash"></ion-icon>
-                      
-                      </ion-col>
-                  
-              </ion-row>
-            </ion-grid>
-          </ion-card>
-        </ion-content>
- </template>
+    <ion-list v-for="holiday in holidays" :key="holiday.id" >
+      <ion-card color="primary">
+        <ion-row>
+          <ion-col>
+            <ion-label><b>Details:</b></ion-label>
+            <ion-label><b>Holiday Start:</b></ion-label>
+            <ion-label><b>Holiday End:</b></ion-label>
+            <ion-label><b>Days:</b></ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-label>{{holiday.holName}}</ion-label>
+            <ion-label>{{holiday.holStart | formatDate}}</ion-label>
+            <ion-label>{{holiday.holEnd | formatDate}}</ion-label>
+            <ion-label>{{holiday.daysBooked}}</ion-label>
+          </ion-col>
+          <ion-col text-right>
+            <ion-label></ion-label> 
+            <ion-label></ion-label>
+            <ion-label></ion-label>
+            <ion-label></ion-label>
+            <ion-label></ion-label>
+            <ion-icon size="large" @click="handleSelect(holiday)" name="create"></ion-icon>
+          </ion-col>
+          <ion-col text-center> 
+            <ion-label></ion-label> 
+            <ion-label></ion-label>
+            <ion-label></ion-label>
+            <ion-label></ion-label>
+            <ion-label></ion-label>
+            <ion-icon size="large" @click="showDialogAlert(holiday)" name="trash"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-card>      
+    </ion-list>
+  </ion-content>
+</template>
 
 <script>
 import { mapState, mapActions } from "vuex";
@@ -60,11 +72,11 @@ export default {
   },
   computed: {
     ...mapState({
-      summary: state => state
-    }),
-    ...mapState({
       holidays: state => state.holidays
-    })
+    }),
+    summary() {
+      return this.$store.getters.calcSummary;
+    }
   },
   methods: {
     ...mapActions({

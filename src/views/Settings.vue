@@ -3,74 +3,63 @@
     <form @submit.prevent='handleSave(settings)'>
       <ion-card padding>
         <ion-card-title text-center>Settings</ion-card-title>
-          <ion-card-content>
-            <ion-item>
-              <ion-label>Company Name:</ion-label>
-              <ion-input text-end :value="settings.company" ref="company" name='company' type='text' inputmode='text' @input="updateCompany" />
-            </ion-item>
-            <ion-label class="error" v-if="!$v.settings.company.minLength">Company must have at least {{$v.settings.company.$params.minLength.min}} characters.</ion-label>
-          </ion-card-content>
-
-          <ion-card-content>
-            <ion-item>
-              <ion-label>Name:</ion-label>
-              <ion-input text-end :value="settings.name" ref="name" name='name' type='text' inputmode='text' @input="updateName" />
-            </ion-item>
-            <ion-label class="error" v-if="!$v.settings.name.minLength" >Name must have at least {{$v.settings.name.$params.minLength.min}} characters.</ion-label>
-          </ion-card-content>
-
-          <ion-card-content>
-            <ion-item>
-              <ion-label>Days Holiday:</ion-label>
-              <ion-input text-end :value="settings.daysHol" ref="daysHol" name='daysHol' type='number' inputmode='number' @input="updateDaysHol" />
-            </ion-item>
-            <ion-label class="error" v-if="!$v.settings.daysHol.between" >Must be between 10 and 40.</ion-label>
-          </ion-card-content>
-
-          <ion-card-content>
-            <ion-item>
-              <ion-label>Bank Holidays:</ion-label>
-              <ion-input text-end :value="settings.bankHols" ref="bankHols" name='bankHols' type='number' inputmode='number' @input="updateBankHols" />
-            </ion-item>
-            <ion-label class="error" v-if="!$v.settings.bankHols.between" >Must be between 0 and 8.</ion-label>
-          </ion-card-content>
-              
-          <ion-card-content>
-            <ion-item>
-              <ion-label>Holiday Year Start:</ion-label>
-              <ion-datetime
-                name='yearStart'
-                ref="yearStart"
-                display-format='MM/YYYY'
-                picker-format='MMMM YYYY'
-                min='2018'
-                max='2020'
-                :value='settings.yearStart'
-                @ionChange="updateYearStart"
-              />
-            </ion-item>
-          </ion-card-content>
-
-          <ion-card-content>
-            <ion-item>
-              <ion-label>Holiday Year End:</ion-label>
-              <ion-datetime
-                name='yearEnd'
-                ref="yearEnd"
-                display-format='MM/YYYY'
-                picker-format='MMMM YYYY'
-                min='2018'
-                max='2020'
-                :value='settings.yearEnd'
-                @ionChange="updateYearEnd"
-              />
-            </ion-item>
-          </ion-card-content>
-
-          <ion-card-content>
-            <ion-label>Normal Working Days</ion-label>
-            <ion-list>
-              
+          
+          <ion-item>
+            <ion-label>Company Name:</ion-label>
+            <ion-input text-end :value="settings.company" ref="company" name='company' type='text' inputmode='text' @input="updateCompany" />
+          </ion-item>
+          <ion-label class="error" v-if="!$v.settings.company.minLength">Company must have at least {{$v.settings.company.$params.minLength.min}} characters.</ion-label>
+          
+          <ion-item>
+            <ion-label>Your Name:</ion-label>
+            <ion-input text-end :value="settings.name" ref="name" name='name' type='text' inputmode='text' @input="updateName" />
+          </ion-item>
+          <ion-label class="error" v-if="!$v.settings.name.minLength" >Name must have at least {{$v.settings.name.$params.minLength.min}} characters.</ion-label>
+                   
+          <ion-item>
+            <ion-label>Days Holiday:</ion-label>
+            <ion-input text-end :value="settings.daysHol" ref="daysHol" name='daysHol' type='number' inputmode='number' @input="updateDaysHol" />
+          </ion-item>
+          <ion-label class="error" v-if="!$v.settings.daysHol.between" >Must be between 10 and 40.</ion-label>
+          
+          <ion-item>
+            <ion-label>Bank Holidays:</ion-label>
+            <ion-input text-end :value="settings.bankHols" ref="bankHols" name='bankHols' type='number' inputmode='number' @input="updateBankHols" />
+          </ion-item>
+          <ion-label class="error" v-if="!$v.settings.bankHols.between" >Must be between 0 and 8.</ion-label>
+         
+          <ion-item>
+           <ion-label>Holiday Year Start:</ion-label>
+           <ion-datetime
+             name='yearStart'
+             ref="yearStart"
+             display-format='DD/MM/YYYY'
+             picker-format='DD MMMM YYYY'
+             min='2018'
+             max='2020'
+             :value='settings.yearStart'
+             @ionChange="updateYearStart"
+            />
+          </ion-item>
+          
+          <ion-item>
+           <ion-label>Holiday Year End:</ion-label>
+           <ion-datetime
+             name='yearEnd'
+             ref="yearEnd"
+             display-format='DD/MM/YYYY'
+             picker-format='DD MMMM YYYY'
+             min='2018'
+             max='2020'
+             :value='settings.yearEnd'
+             @ionChange="updateYearEnd"
+            />
+          </ion-item>
+          
+          <ion-item color="danger">
+            <ion-label text-center>Normal Working Days</ion-label>
+          </ion-item>
+          <ion-list>
             <ion-item>
               <ion-label>Monday</ion-label>
               <ion-checkbox :checked=settings.mon name="mon" color="danger" @click="updateMon"></ion-checkbox>
@@ -105,15 +94,11 @@
               <ion-label>Sunday</ion-label>
               <ion-checkbox :checked=settings.sun name="sun" color="danger" @click="updateSun"></ion-checkbox>
             </ion-item>
-            </ion-list>
-          </ion-card-content>
-
+          </ion-list>
+          
           <ion-card-content>
-            
-              <ion-button :disabled="$v.$invalid" expand="full" type="submit" color="primary">Save Settings</ion-button>
-            
+            <ion-button :disabled="$v.$invalid" expand="full" type="submit" color="primary">Save Settings</ion-button>
           </ion-card-content>
-              
         </ion-card>
       </form>         
     </ion-content>
@@ -163,25 +148,27 @@ export default {
     },
     updateYearStart() {
       this.$v.settings.yearStart.$touch();
+      const day = event.detail.value.day.value || 1;
       const month = event.detail.value.month.value || 1;
       const year = event.detail.value.year.value || 2018;
 
       const theDate = moment()
         .year(year)
         .month(month - 1)
-        .date(1)
+        .date(day)
         .toISOString();
       this.settings.yearStart = theDate;
     },
     updateYearEnd() {
       this.$v.settings.yearEnd.$touch();
+      const day = event.detail.value.day.value || 1;
       const month = event.detail.value.month.value || 1;
       const year = event.detail.value.year.value || 2018;
 
       const theDate = moment()
         .year(year)
         .month(month - 1)
-        .date(1)
+        .date(day)
         .toISOString();
       this.settings.yearEnd = theDate;
     },

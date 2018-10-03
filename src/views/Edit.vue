@@ -3,66 +3,62 @@
     <form @submit.prevent="handleEdit(holiday)">
       <ion-card padding>
         <ion-card-title text-center>Edit Holiday</ion-card-title>
-          <ion-card-content>
-            <ion-item>
-              <ion-label>Holiday Name:</ion-label>
-              <ion-input text-end :value="holiday.holName" ref="holName" name='holName' type='text' inputmode='text' @input="updateHolName" />
-            </ion-item>
-            <ion-label class="error" v-if="!$v.holiday.holName.minLength">Name must have at least {{$v.holiday.holName.$params.minLength.min}} characters.</ion-label>
-          </ion-card-content>
+          <ion-item>
+            <ion-label>Holiday Name:</ion-label>
+            <ion-input text-end :value="holiday.holName" ref="holName" name='holName' type='text' inputmode='text' @input="updateHolName" />
+          </ion-item>
+          <ion-label class="error" v-if="!$v.holiday.holName.minLength">Name must have at least {{$v.holiday.holName.$params.minLength.min}} characters.</ion-label>
+         
+          <ion-item>
+            <ion-label>Holiday Start:</ion-label>
+            <ion-datetime
+              name='holStart'
+              ref="holStart"
+              display-format='DD/MM/YYYY'
+              picker-format='DD MM YYYY'
+              min='2018'
+              max='2020'
+              :value='holiday.holStart'
+              @ionChange="updateHolStart"
+            />
+          </ion-item>
+         
+          <ion-item>
+            <ion-label>Holiday End:</ion-label>
+            <ion-datetime
+              name='holEnd'
+              ref="holEnd"
+              display-format='DD/MM/YYYY'
+              picker-format='DD MM YYYY'
+              min='2018'
+              max='2020'
+              :value='holiday.holEnd'
+              @ionChange="updateHolEnd"
+            />
+          </ion-item>
           
-          <ion-card-content>
-            <ion-item>
-              <ion-label>Holiday Start:</ion-label>
-              <ion-datetime
-                name='holStart'
-                ref="holStart"
-                display-format='DD/MM/YYYY'
-                picker-format='DD MM YYYY'
-                min='2018'
-                max='2020'
-                :value='holiday.holStart'
-                @ionChange="updateHolStart"
-              />
-            </ion-item>
-          </ion-card-content>
+          <ion-item>
+            <ion-label color="secondary">Days Booked:</ion-label>
+            <ion-label color="secondary" text-end>{{holiday.daysBooked}}</ion-label>
+          </ion-item>
 
-          <ion-card-content>
-            <ion-item>
-              <ion-label>Holiday End:</ion-label>
-              <ion-datetime
-                name='holEnd'
-                ref="holEnd"
-                display-format='DD/MM/YYYY'
-                picker-format='DD MM YYYY'
-                min='2018'
-                max='2020'
-                :value='holiday.holEnd'
-                @ionChange="updateHolEnd"
-              />
-            </ion-item>
-          </ion-card-content>
+          <ion-item >
+            <ion-label color="primary">Days to Book:</ion-label>
+            <ion-label color="primary" text-end>{{summary.totalDaysRemaining - holiday.daysBooked}}</ion-label>
+          </ion-item>
+          <ion-label class="error" v-if="summary.totalDaysRemaining - holiday.daysBooked <= 0">YOU HAVE NO HOLIDAY LEFT TO BOOK !!</ion-label>
 
-          <ion-card-content>
-            <ion-item>
-              <ion-label>Days Booked:</ion-label>
-              <ion-input disabled text-end :value="holiday.daysBooked" ref="daysBooked" name='daysBooked' type='number' inputmode='number' />
-            </ion-item>
-          </ion-card-content>
-
-          <ion-card-content>
-            <ion-item>
-              <ion-label>Details:</ion-label>
-              <ion-input text-end :value="holiday.details" ref="details" name='details' type='text' inputmode='text' @input="updateDetails" />
-            </ion-item>
-            <ion-label class="error" v-if="!$v.holiday.details.minLength">Details must have at least {{$v.holiday.details.$params.minLength.min}} characters.</ion-label>
-          </ion-card-content>
-                             
+          <ion-item>
+            <ion-label>Details:</ion-label>
+            <ion-input text-end :value="holiday.details" ref="details" name='details' type='text' inputmode='text' @input="updateDetails" />
+          </ion-item>
+          <ion-label class="error" v-if="!$v.holiday.details.minLength">Details must have at least {{$v.holiday.details.$params.minLength.min}} characters.</ion-label>
+          
           <ion-card-content>
             <ion-button :disabled="$v.$invalid" expand="full" type="submit"  size="default" color="primary">Update Holiday</ion-button>
           </ion-card-content>
-       </ion-card>
-    </form> 
+        </ion-card>
+      </form> 
   </ion-content >
 </template>
   
@@ -87,7 +83,10 @@ export default {
     ...mapState({
       holiday: state => state.holiday,
       labels: state => state
-    })
+    }),
+    summary() {
+      return this.$store.getters.calcSummary;
+    }
   },
   methods: {
     ...mapActions({
