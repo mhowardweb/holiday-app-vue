@@ -1,13 +1,15 @@
 <template>
   <ion-footer>
-    <ion-toolbar color="success">
+    <ion-toolbar color="warning">
       <ion-segment>
-        <ion-segment-button @click="goHols()" value="holidays">
+        <ion-segment-button  @click="goHols()" value="holidays">
           <ion-icon name="sunny"></ion-icon>
         </ion-segment-button>
+        
         <ion-segment-button @click="goAdd()" value="add">
           <ion-icon name="add"></ion-icon>
         </ion-segment-button>
+        
         <ion-segment-button @click="goSettings()" value="settings">
           <ion-icon name="settings"></ion-icon>
         </ion-segment-button>
