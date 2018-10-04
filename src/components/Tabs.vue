@@ -1,6 +1,6 @@
 <template>
   <ion-footer>
-    <ion-toolbar color="warning">
+    <ion-toolbar color="primary">
       <ion-segment>
         <ion-segment-button  @click="goHols()" value="holidays">
           <ion-icon name="sunny"></ion-icon>

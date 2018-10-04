@@ -39,7 +39,8 @@ export default new Vuex.Store({
       details: ""
     },
     holidays: [],
-    workDays: []
+    workDays: [],
+    selectedRoute: "home"
   },
   mutations: {
     [types.SAVE_SETTINGS]: (state, { settings, workDays }) => {
@@ -60,6 +61,9 @@ export default new Vuex.Store({
     },
     [types.CLEAR_FORM]: (state, holiday) => {
       state.holiday = holiday;
+    },
+    [types.SET_ROUTE]: (state, route) => {
+      state.selectedRoute = route;
     }
   },
 
@@ -97,6 +101,10 @@ export default new Vuex.Store({
       commit(types.SAVE_SETTINGS, { settings, workDays });
 
       router.replace({ path: "holidays" });
+    },
+    setRoute({ commit }, route) {
+      commit(types.SET_ROUTE, route);
+      router.replace({ path: route });
     },
     addHoliday({ commit }, holiday) {
       const setId = uuid();

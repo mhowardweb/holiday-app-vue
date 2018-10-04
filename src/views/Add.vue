@@ -1,8 +1,8 @@
 <template>
   <ion-content>
     <form @submit.prevent="handleAdd(holiday)">
-      <ion-card padding>
-        <ion-card-title text-center>Add Holiday</ion-card-title>
+      <ion-list padding>
+        <ion-list-header color="warning">Add Holiday</ion-list-header>
           <ion-item>
             <ion-label>Holiday Name:</ion-label>
             <ion-input text-end :value="holiday.holName" ref="holName" name='holName' type='text' inputmode='text' @input="updateHolName" />
@@ -55,9 +55,9 @@
           <ion-label class="error" v-if="!$v.holiday.details.minLength">Details must have at least {{$v.holiday.details.$params.minLength.min}} characters.</ion-label>
           
           <ion-card-content>
-            <ion-button :disabled="$v.$invalid" expand="full" type="submit"  size="default" color="primary">Save Holiday</ion-button>
+            <ion-button :disabled="$v.$invalid" expand="full" type="submit"  size="default" color="warning">Save Holiday</ion-button>
           </ion-card-content>
-        </ion-card>
+        </ion-list>
       </form> 
   </ion-content >
 </template>

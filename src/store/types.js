@@ -4,3 +4,4 @@ export const DELETE_HOLIDAY = "DELETE_HOLIDAY";
 export const SELECT_HOLIDAY = "SELECT_HOLIDAY";
 export const SAVE_SETTINGS = "SAVE_SETTINGS";
 export const CLEAR_FORM = "CLEAR_FORM";
+export const SET_ROUTE = "SET_ROUTE";

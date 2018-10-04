@@ -1,10 +1,10 @@
 <template>
   <ion-content>
-    <ion-card padding color="warning">
+    <ion-card padding color="primary">
       <ion-label text-center><h1>Hello {{summary.name}}</h1></ion-label>
     </ion-card>
 
-    <ion-card padding color="success">
+    <ion-card padding color="secondary">
       <ion-label text-center><h1>TOTAL DAYS <h1>{{summary.totalDaysHol}}</h1></h1></ion-label>
     </ion-card>
 
@@ -12,7 +12,7 @@
       <ion-label text-center><h1>DAYS USED <h1>{{summary.totalDaysUsed}}</h1></h1></ion-label>
     </ion-card>
 
-    <ion-card padding color="secondary">
+    <ion-card padding color="warning">
       <ion-label text-center><h1>DAYS REMAINING <h1>{{summary.totalDaysRemaining}}</h1></h1></ion-label>
     </ion-card>
 

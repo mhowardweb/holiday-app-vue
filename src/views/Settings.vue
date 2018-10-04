@@ -1,8 +1,8 @@
 <template>
   <ion-content>
     <form @submit.prevent='handleSave(settings)'>
-      <ion-card padding>
-        <ion-card-title text-center>Settings</ion-card-title>
+      <ion-list padding>
+        <ion-list-header color="warning">Settings</ion-list-header>
           
           <ion-item>
             <ion-label>Company Name:</ion-label>
@@ -55,19 +55,17 @@
              @ionChange="updateYearEnd"
             />
           </ion-item>
-          
-          <ion-item color="danger">
-            <ion-label text-center>Normal Working Days</ion-label>
-          </ion-item>
-          <ion-list>
+                    
+          <ion-list padding>
+            <ion-list-header color="tertiary">Normal Working Days</ion-list-header>
             <ion-item>
               <ion-label>Monday</ion-label>
-              <ion-checkbox :checked=settings.mon name="mon" color="danger" @click="updateMon"></ion-checkbox>
+              <ion-checkbox :checked=settings.mon name="mon" color="warning" @click="updateMon"></ion-checkbox>
             </ion-item>
 
             <ion-item>
               <ion-label>Tuesday</ion-label>
-              <ion-checkbox :checked=settings.tue name="tue" color="danger" @click="updateTue"></ion-checkbox>
+              <ion-checkbox :checked=settings.tue name="tue" color="success" @click="updateTue"></ion-checkbox>
             </ion-item>
 
             <ion-item>
@@ -77,12 +75,12 @@
 
             <ion-item>
               <ion-label>Thursday</ion-label>
-              <ion-checkbox :checked=settings.thu name="thu" color="danger" @click="updateThu"></ion-checkbox>
+              <ion-checkbox :checked=settings.thu name="thu" color="warning" @click="updateThu"></ion-checkbox>
             </ion-item>
 
             <ion-item>
               <ion-label>Friday</ion-label>
-              <ion-checkbox :checked=settings.fri name="fri" color="danger" @click="updateFri"></ion-checkbox>
+              <ion-checkbox :checked=settings.fri name="fri" color="success" @click="updateFri"></ion-checkbox>
             </ion-item>
 
             <ion-item>
@@ -92,14 +90,14 @@
 
             <ion-item>
               <ion-label>Sunday</ion-label>
-              <ion-checkbox :checked=settings.sun name="sun" color="danger" @click="updateSun"></ion-checkbox>
+              <ion-checkbox :checked=settings.sun name="sun" color="warning" @click="updateSun"></ion-checkbox>
             </ion-item>
           </ion-list>
           
           <ion-card-content>
-            <ion-button :disabled="$v.$invalid" expand="full" type="submit" color="primary">Save Settings</ion-button>
+            <ion-button :disabled="$v.$invalid" expand="full" type="submit" color="warning">Save Settings</ion-button>
           </ion-card-content>
-        </ion-card>
+        </ion-list>
       </form>         
     </ion-content>
 </template>
