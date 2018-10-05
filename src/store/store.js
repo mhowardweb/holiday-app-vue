@@ -40,7 +40,7 @@ export default new Vuex.Store({
     },
     holidays: [],
     workDays: [],
-    selectedRoute: "home"
+    selectedRoute: "settings"
   },
   mutations: {
     [types.SAVE_SETTINGS]: (state, { settings, workDays }) => {

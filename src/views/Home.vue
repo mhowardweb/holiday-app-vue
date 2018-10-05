@@ -1,24 +1,23 @@
 <template>
-  <ion-content>
-    <ion-card padding color="primary">
-      <ion-label text-center><h1>Hello {{summary.name}}</h1></ion-label>
+  <ion-content color="primary">
+    <ion-text text-center color="light"><h1>Hello {{summary.name}}</h1></ion-text>
+  
+    <ion-card color="light">
+      <ion-text text-center><h4>TOTAL DAYS <h2>{{summary.totalDaysHol}}</h2></h4></ion-text>
+    </ion-card>
+    
+    <ion-card color="light">
+      <ion-text text-center><h4>DAYS USED <h2>{{summary.totalDaysUsed}}</h2></h4></ion-text>
     </ion-card>
 
-    <ion-card padding color="secondary">
-      <ion-label text-center><h1>TOTAL DAYS <h1>{{summary.totalDaysHol}}</h1></h1></ion-label>
+    <ion-card color="light">
+      <ion-text text-center><h4>DAYS REMAINING <h2>{{summary.totalDaysRemaining}}</h2></h4></ion-text>
     </ion-card>
-
-    <ion-card padding color="danger">
-      <ion-label text-center><h1>DAYS USED <h1>{{summary.totalDaysUsed}}</h1></h1></ion-label>
+      
+    <ion-card color="light">
+      <ion-text text-center><h4>USE YOUR HOLIDAYS BY<h2>{{summary.yearEnd | formatDate}}</h2></h4></ion-text>
     </ion-card>
-
-    <ion-card padding color="warning">
-      <ion-label text-center><h1>DAYS REMAINING <h1>{{summary.totalDaysRemaining}}</h1></h1></ion-label>
-    </ion-card>
-
-    <ion-card padding color="tertiary">
-      <ion-label text-center><h1>USE YOUR HOLIDAYS BY<h1>{{summary.yearEnd | formatDate}}</h1></h1></ion-label>
-    </ion-card>
+     
   </ion-content >
 </template>
 

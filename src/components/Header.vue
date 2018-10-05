@@ -1,10 +1,10 @@
 <template>
   <ion-header>
-    <ion-toolbar color="primary">
+    <ion-toolbar style="header">
       <ion-buttons slot="start">
           <ion-menu-button  @click="openStart" auto-hide="false"></ion-menu-button>
       </ion-buttons>
-      <ion-title>Holiday App</ion-title>
+      <ion-title>Holiday Manager</ion-title>
     </ion-toolbar>
   </ion-header>
 </template>
@@ -19,3 +19,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.header {
+  --ion-color-primary-contrast: #ffffff;
+}
+</style>

@@ -4,7 +4,9 @@
       <menu-left/>
         <div class="ion-page" main>
           <Header />
+          <transition name="slide" mode="out-in">
             <router-view></router-view>
+          </transition>  
           <Footer />
           <!-- <Tabs /> -->
         </div>
@@ -31,6 +33,19 @@ export default {
 </script>
 
 <style>
+.slide-enter {
+  opacity: 0;
+}
+
+.slide-enter-active {
+  transition: opacity 0.2s;
+}
+
+.slide-leave-active {
+  transition: opacity 0.2s;
+  opacity: 0;
+}
+
 .error {
   color: #f57f6c;
   font-size: 0.75rem;
