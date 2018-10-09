@@ -23,5 +23,13 @@ export default {
 <style scoped>
 .header {
   --ion-color-primary-contrast: #ffffff;
+  --ion-toolbar-background-color: #bc9cff;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #1f2041;
 }
 </style>

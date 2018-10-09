@@ -1,5 +1,5 @@
 <template>
   <ion-footer>
-    <ion-toolbar/>
+    <ion-toolbar style="--ion-toolbar-background-color: #bc9cff"/>
   </ion-footer>
 </template>

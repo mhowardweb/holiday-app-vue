@@ -2,35 +2,73 @@
   <ion-content>
     <form @submit.prevent='handleSave(settings)'>
       <ion-list padding>
-        <ion-list-header color="warning">Settings</ion-list-header>
+        <ion-list-header class="banner">Settings</ion-list-header>
           
-          <ion-item>
-            <ion-label>Company Name:</ion-label>
-            <ion-input text-end :value="settings.company" ref="company" name='company' type='text' inputmode='text' @input="updateCompany" />
-          </ion-item>
-          <ion-label class="error" v-if="!$v.settings.company.minLength">Company must have at least {{$v.settings.company.$params.minLength.min}} characters.</ion-label>
+          <ion-grid class="igrid">
+            <ion-row>
+              <ion-col>
+                <ion-label class="ilabel">Company Name</ion-label>
+                <ion-label class="error" v-if="!$v.settings.company.minLength">Company must have at least {{$v.settings.company.$params.minLength.min}} characters.</ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row class="ibox">
+              <ion-col>
+               <ion-input :value="settings.company" ref="company" name='company' type='text' inputmode='text' @input="updateCompany" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <ion-grid class="igrid">
+            <ion-row>
+              <ion-col>
+                <ion-label class="ilabel">Your Name</ion-label>
+                <ion-label class="error" v-if="!$v.settings.name.minLength" >Name must have at least {{$v.settings.name.$params.minLength.min}} characters.</ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row class="ibox">
+              <ion-col>
+               <ion-input :value="settings.name" ref="name" name='name' type='text' inputmode='text' @input="updateName" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
           
-          <ion-item>
-            <ion-label>Your Name:</ion-label>
-            <ion-input text-end :value="settings.name" ref="name" name='name' type='text' inputmode='text' @input="updateName" />
-          </ion-item>
-          <ion-label class="error" v-if="!$v.settings.name.minLength" >Name must have at least {{$v.settings.name.$params.minLength.min}} characters.</ion-label>
+          <ion-grid class="igrid">
+            <ion-row>
+              <ion-col>
+                <ion-label class="ilabel">Days Holiday</ion-label>
+                <ion-label class="error" v-if="!$v.settings.daysHol.between" >Must be between 10 and 40.</ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row class="ibox">
+              <ion-col>
+               <ion-input :value="settings.daysHol" ref="daysHol" name='daysHol' type='number' inputmode='number' @input="updateDaysHol" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <ion-grid class="igrid">
+            <ion-row>
+              <ion-col>
+                <ion-label class="ilabel">Bank Holidays</ion-label>
+                <ion-label class="error" v-if="!$v.settings.bankHols.between" >Must be between 0 and 8.</ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row class="ibox">
+              <ion-col>
+               <ion-input :value="settings.bankHols" ref="bankHols" name='bankHols' type='number' inputmode='number' @input="updateBankHols" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
                    
-          <ion-item>
-            <ion-label>Days Holiday:</ion-label>
-            <ion-input text-end :value="settings.daysHol" ref="daysHol" name='daysHol' type='number' inputmode='number' @input="updateDaysHol" />
-          </ion-item>
-          <ion-label class="error" v-if="!$v.settings.daysHol.between" >Must be between 10 and 40.</ion-label>
-          
-          <ion-item>
-            <ion-label>Bank Holidays:</ion-label>
-            <ion-input text-end :value="settings.bankHols" ref="bankHols" name='bankHols' type='number' inputmode='number' @input="updateBankHols" />
-          </ion-item>
-          <ion-label class="error" v-if="!$v.settings.bankHols.between" >Must be between 0 and 8.</ion-label>
-         
-          <ion-item>
-           <ion-label>Holiday Year Start:</ion-label>
-           <ion-datetime
+          <ion-grid class="igrid">
+            <ion-row>
+              <ion-col>
+                <ion-label class="ilabel">Holiday Year Start</ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row class="ibox">
+              <ion-col>
+                <ion-datetime
              name='yearStart'
              ref="yearStart"
              display-format='DD/MM/YYYY'
@@ -40,11 +78,19 @@
              :value='settings.yearStart'
              @ionChange="updateYearStart"
             />
-          </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>        
           
-          <ion-item>
-           <ion-label>Holiday Year End:</ion-label>
-           <ion-datetime
+          <ion-grid class="igrid">
+            <ion-row>
+              <ion-col>
+                <ion-label class="ilabel">Holiday Year End</ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row class="ibox">
+              <ion-col>
+                <ion-datetime
              name='yearEnd'
              ref="yearEnd"
              display-format='DD/MM/YYYY'
@@ -54,48 +100,52 @@
              :value='settings.yearEnd'
              @ionChange="updateYearEnd"
             />
-          </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>        
+         
+          
                     
           <ion-list padding>
-            <ion-list-header color="tertiary">Normal Working Days</ion-list-header>
+            <ion-list-header class="banner">Normal Working Days</ion-list-header>
             <ion-item>
-              <ion-label>Monday</ion-label>
-              <ion-checkbox :checked=settings.mon name="mon" color="warning" @click="updateMon"></ion-checkbox>
+              <ion-label class="ilabel">Monday</ion-label>
+              <ion-checkbox class="itick" :checked=settings.mon name="mon" @click="updateMon"></ion-checkbox>
             </ion-item>
 
             <ion-item>
-              <ion-label>Tuesday</ion-label>
-              <ion-checkbox :checked=settings.tue name="tue" color="success" @click="updateTue"></ion-checkbox>
+              <ion-label class="ilabel">Tuesday</ion-label>
+              <ion-checkbox class="itick" :checked=settings.tue name="tue" color="success" @click="updateTue"></ion-checkbox>
             </ion-item>
 
             <ion-item>
-              <ion-label>Wednesday</ion-label>
-              <ion-checkbox :checked=settings.wed name="wed" color="danger" @click="updateWed"></ion-checkbox>
+              <ion-label class="ilabel">Wednesday</ion-label>
+              <ion-checkbox class="itick" :checked=settings.wed name="wed" color="danger" @click="updateWed"></ion-checkbox>
             </ion-item>
 
             <ion-item>
-              <ion-label>Thursday</ion-label>
-              <ion-checkbox :checked=settings.thu name="thu" color="warning" @click="updateThu"></ion-checkbox>
+              <ion-label class="ilabel">Thursday</ion-label>
+              <ion-checkbox class="itick" :checked=settings.thu name="thu" color="warning" @click="updateThu"></ion-checkbox>
             </ion-item>
 
             <ion-item>
-              <ion-label>Friday</ion-label>
-              <ion-checkbox :checked=settings.fri name="fri" color="success" @click="updateFri"></ion-checkbox>
+              <ion-label class="ilabel">Friday</ion-label>
+              <ion-checkbox class="itick" :checked=settings.fri name="fri" color="success" @click="updateFri"></ion-checkbox>
             </ion-item>
 
             <ion-item>
-              <ion-label>Saturday</ion-label>
-              <ion-checkbox :checked=settings.sat name="sat" color="danger" @click="updateSat"></ion-checkbox>
+              <ion-label class="ilabel">Saturday</ion-label>
+              <ion-checkbox class="itick" :checked=settings.sat name="sat" color="danger" @click="updateSat"></ion-checkbox>
             </ion-item>
 
             <ion-item>
-              <ion-label>Sunday</ion-label>
-              <ion-checkbox :checked=settings.sun name="sun" color="warning" @click="updateSun"></ion-checkbox>
+              <ion-label class="ilabel">Sunday</ion-label>
+              <ion-checkbox class="itick" :checked=settings.sun name="sun" color="warning" @click="updateSun"></ion-checkbox>
             </ion-item>
           </ion-list>
           
           <ion-card-content>
-            <ion-button :disabled="$v.$invalid" expand="full" type="submit" color="warning">Save Settings</ion-button>
+            <ion-button class="ibutton" :disabled="$v.$invalid" expand="full" type="submit">Save Settings</ion-button>
           </ion-card-content>
         </ion-list>
       </form>         
@@ -194,3 +244,69 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.itick {
+  --background-checked: #ffffff;
+  /* Primary Color */
+  --border-color: #bc9cff;
+  --border-color-checked: #bc9cff;
+  --checkmark-color: #bc9cff;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+.banner {
+  background: rgba(31, 32, 65, 0.5);
+  font-family: Quicksand;
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.ibutton {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 25px;
+  --background: linear-gradient(180deg, #6fcf97 0%, #66d2ea 100%);
+  --background-activated: linear-gradient(180deg, #6fcf97 0%, #66d2ea 100%);
+  border-radius: 22px;
+  --color: #ffffff;
+  --color-activated: #ffffff;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.grid {
+  width: 320px;
+  height: 64.44px;
+}
+.ibox {
+  width: 360px;
+  height: 44px;
+  border: 1px solid rgba(31, 32, 65, 0.25);
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 24px;
+  font-size: 18px;
+  color: rgba(31, 32, 65, 0.75);
+}
+
+.ilabel {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #1f2041;
+}
+</style>
